@@ -1,0 +1,14 @@
+---
+- name: Creating user
+  hosts: all
+  tasks:
+    - name: User creation
+      user:
+        name: Anusha
+        password: intelliqit
+        uid: 1234
+        comment: "A regualar user"
+        home: /home/Anusha
+        shell: /bin/bash
+
+...

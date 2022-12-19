@@ -1,0 +1,31 @@
+---
+- name: Configure apache2
+  hosts: all
+  tasks:
+    - name: Install apach2
+      apt:
+        name: apache2
+        state: present
+        update_cache: yes
+    - name: Edit the index.html file
+      copy:
+        content: "IntelliQIT"
+        dest: /var/www/html/index.html
+    - name: Restart apache2
+      service:
+        name: apache2
+        state: restarted
+    - name: Check apache response on server1
+      uri:
+        url: http://172.31.25.247
+        status_code: 200
+    - name: Check apache response on server2
+      uri:
+        url: http://172.31.18.194
+        status_code: 200
+
+
+
+
+
+...
