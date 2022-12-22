@@ -7,6 +7,7 @@
         name: "{{item.a}}"
         password: "{{item.b}}"
         home: "{{item.c}}"
+      
       with_items:
         - {a: Anu,b: intelliqit,c: /tmp/Anu}
         - {a: Ravi,b: intelliqit,c: /home/Ravi}
