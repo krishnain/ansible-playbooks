@@ -1,0 +1,46 @@
+---
+- name: Install required s/w's for ci-cd
+  hosts: all
+  tasks:
+    - name: Install required s/w's
+      apt:
+        name: "{{item.a}}"
+        state: present
+        update_cache: "{{item.b}}"
+      with_items:
+        - {a: openjdk-11-jdk,b: yes}
+        - {a: git,b: no}
+        - {a: maven,b: no}
+        - {a: tomcat9,b: no}
+        - {a: tomcat9-admin,b: no}
+- name: Continuous Dwonload and Continuous Build
+  hosts: devserver
+  tasks:
+    - name: Download the dev code from github
+      git:
+        repo: https://github.com/intelliqittrainings/maven.git
+        dest: dev-git
+    - name: Create an artifact
+      shell: cd dev-git;mvn package
+    - name: Fetch artifact from devserver to controller
+      fetch:
+        src: dev-git/webapp/target/webapp.war
+        dest: /tmp
+- name: Continuous Deployment and Continuous Testing
+  hosts: qaserver
+  tasks:
+    - name: Deply artifact into tomcat on the qaservers
+      copy:
+        src: /tmp/172.31.47.44/dev-git/webapp/target/webapp.war
+        dest: /var/lib/tomcat9/webapps/testpp.war
+
+
+
+
+
+
+
+
+
+
+
