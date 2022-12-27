@@ -1,6 +1,6 @@
 ---
 - name: Creating user
-  hosts: servers
+  hosts: all
   tasks:
     - name: User creation
       user:

@@ -1,0 +1,45 @@
+---
+- name: Configure apache2 or httpd based on OS
+  hosts: all
+  tasks:
+    - name: Install apache2 using apt
+      apt:
+        name: apache2
+        state: present
+        update_cache: yes
+      when: ansible_distribution == "Ubuntu"
+    - name: Install httpd using yum
+      yum:
+        name: httpd
+        state: present
+        update_cache: yes
+      when: ansible_distribution == "RedHat"
+    - name: Edit the index.html file
+      copy:
+        content: "Welcome to Devops"
+        dest: /var/www/html/index.html
+    - name: Restart apache2 on ubuntu
+      service:
+        name: apache2
+        state: restarted
+      when: ansible_distribution == "Ubuntu"
+    - name: Restart httpd on Redhat
+      service:
+        name: httpd
+        state: restarted
+      when: ansible_distribution == "RedHat"
+    - name: Check apache or httpd response
+      uri:
+        url: "{{item}}"
+        status_code: 200
+      with_items:
+        - http://172.31.47.219
+        - http://172.31.25.247
+        - http://172.31.18.194
+        - http://172.31.40.15
+
+
+
+
+
+

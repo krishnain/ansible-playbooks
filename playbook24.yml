@@ -1,0 +1,17 @@
+---
+- name: Install s/w's based on OS type
+  hosts: all
+  tasks:
+    - name: Install git using apt module
+      apt:
+        name: git
+        state: present
+        update_cache: yes
+      when: ansible_distribution == "Ubuntu"
+    - name: Install git using yum module
+      yum:
+        name: git
+        state: present
+        update_cache: yes
+      when: ansible_distribution == "RedHat"
+

@@ -1,0 +1,14 @@
+---
+- name: Capture OS info of all node
+  hosts: all
+  tasks:
+    - name: Capture os name
+      debug:
+        msg="{{ansible_distribution}}"
+    - name: Capture os version
+      debug:
+        msg="{{ansible_distribution_version}}"
+    - name: Capture major version  info
+      debug:
+        msg="{{ansible_distribution_major_version}}"
+
